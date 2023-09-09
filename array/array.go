@@ -15,5 +15,6 @@ func main() {
 	fmt.Printf("skills2: %v\n", skills2)
 
 	fmt.Printf("len skills2: %v\n", len(skills2)) // use len
+	fmt.Println(skills[0:1])
 
 }
