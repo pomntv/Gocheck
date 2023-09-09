@@ -7,6 +7,7 @@ import (
 func main() {
 	// var skills [3]string
 	skills := [3]string{"", "", ""}
+
 	fmt.Printf("skills: %v\n", skills)
 	fmt.Printf("skills: %#v\n", skills) // check knowledge
 
