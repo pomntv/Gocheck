@@ -17,11 +17,11 @@ import (
 //     ex: 112233, 3144556647, 17887766
 
 func main() {
-	input := "123456" // Validate.Password("123456")
-	if validator.Validate(input) {
-		fmt.Printf("%s is valid\n", input)
+	input := "987654"
+	if validator.IsValid(input) {
+		fmt.Printf("%s is Pass\n", input)
 	} else {
-		fmt.Printf("%s is not valid\n", input)
+		fmt.Printf("%s is not Pass\n", input)
 	}
 
 }

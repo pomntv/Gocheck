@@ -1,43 +1,51 @@
 package validator
 
-import "fmt"
+import "strings"
 
-// 1) at least 6 charactors long
-// only >6
-// 2) increase & decrese number is not allowed (at lease 3 chars)
-//     ex: 123456, 5734514, 162987
-
-// 3) repeat number (at lease 3 chars)
-//     ex: 111111, 5718880, 1927333
-
-// 4) repeat 2 digits but sequence in set
-//     ex: 112233, 3144556647, 17887766
-func Validate(password string) bool {
-	if len(password) < 6 { // Rule 1: at least 6 characters long
-
+func IsValid(s string) bool {
+	if len(s) < 6 { // Rule 1: at least 6 characters long
 		return false
 	}
 
 	var repeatCount, seqCount int
-	for i := 0; i < len(password)-1; i++ {
+
+	for i := 0; i < len(s)-1; i++ {
+
 		switch {
-		case password[i] == password[i+1]: // check for repeating characters
+		case s[i] == s[i+1]: // check for repeating characters
 			repeatCount++
-			if repeatCount > 3 {
-				fmt.Println("repeatCount > 3")
+			if repeatCount >= 2 { // Rule 3
+				return false
 			}
-		// case password[i+2]-password[i+1] == password[i+1]-password[i]:
-		// 	seqCount++
-		// 	if seqCount > 3 {
-		// 		fmt.Println("seqCount > 3")
-		// 	}
 		default:
 			repeatCount = 0
-			seqCount = 0
-			fmt.Printf("seqCount: %v\n", seqCount)
 		}
 
+		switch {
+		case i < len(s)-2 && s[i+2]-s[i+1] == s[i+1]-s[i] && s[i+2]-s[i+1] != 0: // check for sequence
+			seqCount++
+			if seqCount >= 2 { // Rule 2
+				return false
+			}
+		default:
+			seqCount = 0
+		}
 	}
 
+	// Check for repeating two digit sequences
+	if isValidTwoDigitSequence(s) { // Rule 4
+		return false
+	}
+	return true
+}
+
+func isValidTwoDigitSequence(s string) bool {
+	for i := 0; i < len(s)-3; i += 2 {
+		seq := s[i : i+2]
+		remaining := s[i+2:]
+		if strings.Count(remaining, seq) > 1 {
+			return false
+		}
+	}
 	return true
 }
